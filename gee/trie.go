@@ -1,9 +1,9 @@
 package gee
 
-import {
+import (
 	"fmt"
 	"strings"
-}
+)
 
 type node struct {
 	pattern string // 待匹配路由，例如 /p/:lang
@@ -25,7 +25,7 @@ func (n *node) insert(pattern string,parts []string,height int) {
 	part := parts[height]
 	child := n.matchChild(part)
 	if child == nil {
-		child = &node(part: part,isWild: part[0] == ':' || part[0] == '*')
+		child = &node{part: part, isWild: part[0] == ':' || part[0] == '*'}
 		n.children = append(n.children,child)
 	}
 	child.insert(pattern,parts,height+1)
@@ -69,7 +69,7 @@ func (n *node) matchChild(part string) *node {
 	return nil
 }
 
-func (n *node) matchChild(part string) []*node {
+func (n *node) matchChildren(part string) []*node {
 	nodes := make([]*node,0)
 	for _, child := range n.children {
 		if child.part == part || child.isWild {
